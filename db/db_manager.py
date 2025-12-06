@@ -25,7 +25,7 @@ class DBManager:
         ''')
         self.connection.commit()
         print("Database initialized successfully!!!")
-
+# CN thêm
     def add_event(self, event, start_time, end_time=None, location=None, reminder_minutes=15, status=0):
         # Check if event already exists
         check_query = '''
@@ -46,7 +46,7 @@ class DBManager:
         except Exception as e:
             print(f"Error adding event: {e}")
             return False
-
+# Lấy ds ghi chú chưa tbao
     def get_upcoming_events(self):
         try:
             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -54,14 +54,47 @@ class DBManager:
             query = """
                 SELECT id, event, start_time, location, reminder_minutes 
                 FROM note 
-                WHERE status=0 AND start_time >= ? 
+                WHERE status=0
                 ORDER BY start_time ASC
             """
-            self.cursor.execute(query, (now, ))
+            self.cursor.execute(query)
             return self.cursor.fetchall()
         except Exception as e:
             print(f"Error fetching upcoming events: {e}")
             return []
+# CN xóa
+    def delete_event(self, event_id):
+        try:
+            self.cursor.execute("DELETE FROM note WHERE id = ?", (event_id,))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error while deleting !!!: {e}")
+            return False
+# CN sửa
+    def update_event(self, id, event, start_time, location, reminder_minutes):
+        try:
+            query = '''
+                UPDATE note 
+                SET event = ?, start_time = ?, location = ?, reminder_minutes = ?
+                WHERE id = ?
+            '''
+            self.cursor.execute(query, (event, start_time, location, reminder_minutes, id))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error updating event: {e}")
+            return False
+    
+    def mark_as_notified(self, event_id):
+        try:
+            query = "UPDATE note SET status = 1 WHERE id = ?"
+            self.cursor.execute(query, (event_id,))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error while updating status: {e}")
+            return False
 
     def close(self):
         self.connection.close()
@@ -90,20 +123,20 @@ if __name__ == "__main__":
             "start_time": "2025-12-05 20:00:00", # Tối nay
             "location": "CGV Vincom",
             "reminder_minutes": 60,
-            "status": 0
+            "status": 1
         },
         {
             "event": "Chạy bộ sáng sớm",
             "start_time": "2025-12-06 05:30:00", # Sáng mai
             "location": "Công viên Tao Đàn",
-            "status": 0
+            "status": 1
         },
         {
             "event": "Ăn tối gia đình",
             "start_time": "2025-12-06 19:00:00", # Tối mai
             "location": "Nhà hàng Biển Đông",
             "reminder_minutes": 30,
-            "status": 0
+            "status": 1
         },
         {
             "event": "Review code dự án",
