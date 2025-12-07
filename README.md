@@ -13,27 +13,24 @@ bash
 git clone [https://github.com/username/personal_schedule_assistant.git](https://github.com/username/personal_schedule_assistant.git)
 cd personal_schedule_assistant
 
-###Bước 2: Cài đặt môi trường ảo (Virtual Environment)
+### Bước 2: Cài đặt môi trường ảo (Virtual Environment)
 Tạo và kích hoạt môi trường ảo để đảm bảo không xung đột thư viện:
-
-Đối với Windows:
+#### Đối với Windows:
 Bash
 python -m venv venv
 .\venv\Scripts\activate
-
-Đối với macOS / Linux:
+#### Đối với macOS / Linux:
 Bash
 python3 -m venv venv
 source venv/bin/activate
 
-###Bước 3: Cài đặt thư viện
-Cài đặt các thư viện cần thiết cho dự án:
-Bước 3: Cài đặt thư viện
+### Bước 3: Cài đặt thư viện
 Cài đặt các thư viện cần thiết cho dự án:
 Bash
 pip install -r requirements.txt
 
-###Bước 4: Chạy chương trình
+### Bước 4: Chạy chương trình
 Khởi chạy ứng dụng:
 Bash
 python main.py
+
